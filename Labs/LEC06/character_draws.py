@@ -5,6 +5,18 @@ import math
 open_canvas(800, 600)
 boy = load_image('character.png')
 
+# 사각형에 필요한 함수
+def move_top():
+    pass
+def move_right():
+    pass
+def move_bottom():
+    pass
+def move_left():
+    pass
+
+
+# 주인공 움직이게 하는 함수
 def move_circle():
     for degree in range(360):
         angle = math.radians(degree)
@@ -17,7 +29,10 @@ def move_circle():
         delay(0.01)
 
 def move_rectangle():
-    print('rectangle')
+    move_top()
+    move_right()
+    move_bottom()
+    move_left()
     pass
 
 def move_triangle():
