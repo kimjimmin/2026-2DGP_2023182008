@@ -46,22 +46,22 @@ def move_left():
 
 # 삼각형 구현에 필요한 함수
 def move_triangle_left():
-    for i in range(101):
-        x = 400 - 3 * i
-        y = 550 - 5 * i
-
-        draw_boy(x, y)
+    move_line(400, 550, 100, 50, 100)
 
 def move_triangle_bottom():
-     for x in range(100, 701, MOVE_STEP):
-        draw_boy(x, 50)
+     move_line(100, 50, 700, 50, 120)
 
 def move_triangle_right():
-    for i in range(101):
-        x = 700 - 3 * i
-        y = 50 + 5 * i
+    move_line(700, 50, 400, 550, 100)
 
-        draw_boy(x, y)
+def move_line(start_x, start_y, end_x, end_y, steps):
+    for i in range(steps + 1):
+        t = i / steps
+
+        x = start_x + (end_x - start_x) * t
+        y = start_y + (end_y - start_y) * t
+
+        draw_boy(x, y)    
 
 #공통 함수
 def draw_boy(x, y):
