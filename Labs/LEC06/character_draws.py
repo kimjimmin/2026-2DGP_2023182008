@@ -56,6 +56,11 @@ def move_rectangle():
     move_left()
 
 def move_triangle_left():
+    for i in range(101):
+        x = 400 - 3 * i
+        y = 550 - 5 * i
+
+        draw_boy(x, y)
     pass
 
 def move_triangle_bottom():
