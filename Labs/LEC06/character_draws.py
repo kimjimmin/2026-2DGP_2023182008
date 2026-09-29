@@ -30,7 +30,7 @@ def move_circle():
         y = 300 + 200 * math.sin(angle)
     
         clear_canvas()
-        boy.draw(x, y)
+        draw_boy(x, y)
         update_canvas()
         delay(0.01)
 def move_top():
@@ -67,7 +67,7 @@ def move_triangle():
 
 while True:
     clear_canvas()
-    boy.draw(400, 300)
+    draw_boy(400, 300)
     move_circle()
     move_rectangle()
     update_canvas()
