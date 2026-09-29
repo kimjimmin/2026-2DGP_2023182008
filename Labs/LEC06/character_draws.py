@@ -5,6 +5,7 @@ import math
 #상수화
 WIDTH = 800
 HEIGHT = 600
+MOVE_DELAY = 0.01
 
 open_canvas(WIDTH, HEIGHT)
 boy = load_image('character.png')
@@ -50,7 +51,7 @@ def draw_boy(x, y):
     clear_canvas()
     boy.draw(x, y)
     update_canvas()
-    delay(0.01)
+    delay(MOVE_DELAY)
 
 # 주인공 움직이게 하는 함수
 def move_circle():
