@@ -35,7 +35,11 @@ def move_circle():
         delay(0.01)
 
 def move_rectangle():
-    move_top()
+    pass
+def move_top():
+    for x in range(50, 751, 5):
+        draw_boy(x, 550)
+
     move_right()
     move_bottom()
     move_left()
