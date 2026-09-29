@@ -74,8 +74,9 @@ def move_triangle_right():
         draw_boy(x, y)
 
 def move_triangle():
-    print('triangle')
-    pass
+    move_triangle_left()
+    move_triangle_bottom()
+    move_triangle_right()
 
 while True:
     clear_canvas()
