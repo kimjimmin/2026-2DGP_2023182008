@@ -2,7 +2,11 @@
 from pico2d import *
 import math
 
-open_canvas(800, 600)
+#상수화
+WIDTH = 800
+HEIGHT = 600
+
+open_canvas(WIDTH, HEIGHT)
 boy = load_image('character.png')
 
 # 사각형에 구현에 필요한 함수
