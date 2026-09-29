@@ -61,10 +61,10 @@ def move_triangle_left():
         y = 550 - 5 * i
 
         draw_boy(x, y)
-    pass
 
 def move_triangle_bottom():
-    pass
+     for x in range(100, 701, 5):
+        draw_boy(x, 50)
 
 def move_triangle_right():
     pass
