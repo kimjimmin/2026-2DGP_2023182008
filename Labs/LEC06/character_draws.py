@@ -12,25 +12,26 @@ LEFT = 50
 RIGHT = 750
 BOTTOM = 50
 TOP = 550
+MOVE_STEP = 5
 
 open_canvas(WIDTH, HEIGHT)
 boy = load_image('character.png')
 
 # 사각형에 구현에 필요한 함수
 def move_top():
-    for x in range(LEFT, RIGHT + 1, 5):
+    for x in range(LEFT, RIGHT + 1, MOVE_STEP):
         draw_boy(x, TOP)
 
 def move_right():
-      for y in range(TOP, BOTTOM - 1, -5):
+      for y in range(TOP, BOTTOM - 1, -MOVE_STEP):
         draw_boy(RIGHT, y)
 
 def move_bottom():
-    for x in range(RIGHT, LEFT - 1, -5):
+    for x in range(RIGHT, LEFT - 1, -MOVE_STEP):
         draw_boy(x, BOTTOM)
 
 def move_left():
-    for y in range(BOTTOM, TOP + 1, 5):
+    for y in range(BOTTOM, TOP + 1, MOVE_STEP):
         draw_boy(LEFT, y)
 
 # 삼각형 구현에 필요한 함수
