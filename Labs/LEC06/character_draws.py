@@ -55,6 +55,9 @@ def move_rectangle():
     move_bottom()
     move_left()
 
+def move_triangle_left():
+    pass
+
 def move_triangle_bottom():
     pass
 
