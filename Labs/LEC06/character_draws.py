@@ -15,6 +15,12 @@ def move_bottom():
 def move_left():
     pass
 
+#공통 함수
+def draw_boy(x, y):
+    clear_canvas()
+    boy.draw(x, y)
+    update_canvas()
+    delay(0.01)
 
 # 주인공 움직이게 하는 함수
 def move_circle():
