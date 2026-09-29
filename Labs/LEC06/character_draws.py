@@ -7,25 +7,31 @@ WIDTH = 800
 HEIGHT = 600
 MOVE_DELAY = 0.01
 
+#상수화 - 사각형 좌표
+LEFT = 50
+RIGHT = 750
+BOTTOM = 50
+TOP = 550
+
 open_canvas(WIDTH, HEIGHT)
 boy = load_image('character.png')
 
 # 사각형에 구현에 필요한 함수
 def move_top():
-    for x in range(50, 751, 5):
-        draw_boy(x, 550)
+    for x in range(LEFT, RIGHT + 1, 5):
+        draw_boy(x, TOP)
 
 def move_right():
-      for y in range(550, 49, -5):
-        draw_boy(750, y)
+      for y in range(TOP, BOTTOM - 1, -5):
+        draw_boy(RIGHT, y)
 
 def move_bottom():
-    for x in range(750, 49, -5):
-        draw_boy(x, 50)
+    for x in range(RIGHT, LEFT - 1, -5):
+        draw_boy(x, BOTTOM)
 
 def move_left():
-    for y in range(50, 551, 5):
-        draw_boy(50, y)
+    for y in range(BOTTOM, TOP + 1, 5):
+        draw_boy(LEFT, y)
 
 # 삼각형 구현에 필요한 함수
 def move_triangle_left():
