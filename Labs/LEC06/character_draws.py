@@ -83,6 +83,7 @@ while True:
     draw_boy(400, 300)
     move_circle()
     move_rectangle()
+    move_triangle()
     update_canvas()
     delay(1)
     close_canvas()
