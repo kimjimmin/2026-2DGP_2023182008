@@ -67,7 +67,11 @@ def move_triangle_bottom():
         draw_boy(x, 50)
 
 def move_triangle_right():
-    pass
+    for i in range(101):
+        x = 700 - 3 * i
+        y = 50 + 5 * i
+
+        draw_boy(x, y)
 
 def move_triangle():
     print('triangle')
