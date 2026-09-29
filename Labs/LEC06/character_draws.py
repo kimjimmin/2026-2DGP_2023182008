@@ -54,12 +54,7 @@ def move_circle():
         angle = math.radians(degree)
         x = 400 + 200 * math.cos(angle)
         y = 300 + 200 * math.sin(angle)
-    
-        clear_canvas()
         draw_boy(x, y)
-        update_canvas()
-        delay(0.01)
-
 
 def move_rectangle():
     move_top()
@@ -71,6 +66,7 @@ def move_triangle():
     move_triangle_left()
     move_triangle_bottom()
     move_triangle_right()
+
 
 while True:
     clear_canvas()
