@@ -14,6 +14,16 @@ BOTTOM = 50
 TOP = 550
 MOVE_STEP = 5
 
+#상수화 - 삼각형 좌표
+TRI_TOP_X = 400
+TRI_TOP_Y = 550
+
+TRI_LEFT_X = 100
+TRI_LEFT_Y = 50
+
+TRI_RIGHT_X = 700
+TRI_RIGHT_Y = 50
+
 open_canvas(WIDTH, HEIGHT)
 boy = load_image('character.png')
 
@@ -43,7 +53,7 @@ def move_triangle_left():
         draw_boy(x, y)
 
 def move_triangle_bottom():
-     for x in range(100, 701, 5):
+     for x in range(100, 701, MOVE_STEP):
         draw_boy(x, 50)
 
 def move_triangle_right():
