@@ -95,5 +95,9 @@ def move_boy():
     move_rectangle()
     move_triangle()
 
-while True:
-    move_boy()
+def main():
+    while True:
+        move_boy()
+
+
+main()
