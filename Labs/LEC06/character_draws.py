@@ -67,9 +67,11 @@ def move_triangle():
     move_triangle_bottom()
     move_triangle_right()
 
-
-while True:
+# 전체 움직임 구현
+def move_boy():
     move_circle()
     move_rectangle()
     move_triangle()
-    update_canvas()
+
+while True:
+    move_boy()
