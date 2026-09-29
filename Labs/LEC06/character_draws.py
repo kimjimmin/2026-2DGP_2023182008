@@ -55,6 +55,11 @@ def move_rectangle():
     move_bottom()
     move_left()
 
+def move_triangle_bottom():
+    pass
+
+def move_triangle_right():
+    pass
 
 def move_triangle():
     print('triangle')
