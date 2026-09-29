@@ -40,10 +40,20 @@ def move_top():
     for x in range(50, 751, 5):
         draw_boy(x, 550)
 
-    move_right()
-    move_bottom()
-    move_left()
+def move_right():
     pass
+
+def move_bottom():
+    for x in range(750, 49, -5):
+        draw_boy(x, 50)
+
+def move_left():
+    pass
+
+move_top()
+move_right()
+move_bottom()
+move_left()
 
 def move_triangle():
     print('triangle')
