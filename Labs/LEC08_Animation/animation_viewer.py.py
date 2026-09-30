@@ -40,7 +40,6 @@ attack_x = [
 ]
 
 
-# 하나의 프레임 출력
 def draw_frame(x, y, width, height):
     character.clip_draw(
         x, y,
@@ -50,7 +49,6 @@ def draw_frame(x, y, width, height):
     )
 
 
-# 걷기 출력
 def draw_walk(frame):
     draw_frame(
         frame * 210,
@@ -60,7 +58,6 @@ def draw_walk(frame):
     )
 
 
-# 뛰기 출력
 def draw_run(frame):
     draw_frame(
         run_x[frame],
@@ -70,7 +67,6 @@ def draw_run(frame):
     )
 
 
-# 점프 출력
 def draw_jump(frame):
     draw_frame(
         jump_x[frame],
@@ -80,7 +76,6 @@ def draw_jump(frame):
     )
 
 
-# 공격 출력
 def draw_attack(frame):
     draw_frame(
         attack_x[frame],
@@ -90,6 +85,16 @@ def draw_attack(frame):
     )
 
 
+# 다음 프레임으로 이동
+def next_frame(frame, frame_count, animation_type, next_animation):
+    frame = (frame + 1) % frame_count
+
+    if frame == 0:
+        animation_type = next_animation
+
+    return frame, animation_type
+
+
 while True:
     clear_canvas()
 
@@ -97,40 +102,48 @@ while True:
     if animation_type == 0:
         draw_walk(frame)
 
-        frame = (frame + 1) % 7
-
-        if frame == 0:
-            animation_type = 1
+        frame, animation_type = next_frame(
+            frame,
+            7,
+            animation_type,
+            1
+        )
 
 
     # 뛰기
     elif animation_type == 1:
         draw_run(frame)
 
-        frame = (frame + 1) % 5
-
-        if frame == 0:
-            animation_type = 2
+        frame, animation_type = next_frame(
+            frame,
+            5,
+            animation_type,
+            2
+        )
 
 
     # 점프
     elif animation_type == 2:
         draw_jump(frame)
 
-        frame = (frame + 1) % 10
-
-        if frame == 0:
-            animation_type = 3
+        frame, animation_type = next_frame(
+            frame,
+            10,
+            animation_type,
+            3
+        )
 
 
     # 공격
     elif animation_type == 3:
         draw_attack(frame)
 
-        frame = (frame + 1) % 7
-
-        if frame == 0:
-            animation_type = 0
+        frame, animation_type = next_frame(
+            frame,
+            7,
+            animation_type,
+            0
+        )
 
 
     update_canvas()
