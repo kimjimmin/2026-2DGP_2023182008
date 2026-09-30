@@ -18,7 +18,6 @@ run_x = [
 while True:
     clear_canvas()
 
-    # 걷기
     if animation_type == 0:
         character.clip_draw(
             frame * 210, 595,
@@ -32,10 +31,9 @@ while True:
         if frame == 0:
             animation_type = 1
 
-    # 뛰기
     elif animation_type == 1:
         character.clip_draw(
-            run_x[frame], 395,
+            run_x[frame], 400,
             250, 198,
             400, 300,
             250, 198
@@ -46,7 +44,6 @@ while True:
         if frame == 0:
             animation_type = 2
 
-    # 점프
     elif animation_type == 2:
         character.clip_draw(
             frame * 198, 198,
@@ -60,7 +57,6 @@ while True:
         if frame == 0:
             animation_type = 3
 
-    # 공격
     elif animation_type == 3:
         character.clip_draw(
             frame * 283, 0,
