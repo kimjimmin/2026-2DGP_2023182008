@@ -40,7 +40,7 @@ attack_x = [
 ]
 
 
-# 스프라이트 프레임 출력
+# 하나의 프레임 출력
 def draw_frame(x, y, width, height):
     character.clip_draw(
         x, y,
@@ -50,17 +50,52 @@ def draw_frame(x, y, width, height):
     )
 
 
+# 걷기 출력
+def draw_walk(frame):
+    draw_frame(
+        frame * 210,
+        595,
+        210,
+        198
+    )
+
+
+# 뛰기 출력
+def draw_run(frame):
+    draw_frame(
+        run_x[frame],
+        400,
+        240,
+        160
+    )
+
+
+# 점프 출력
+def draw_jump(frame):
+    draw_frame(
+        jump_x[frame],
+        203,
+        190,
+        190
+    )
+
+
+# 공격 출력
+def draw_attack(frame):
+    draw_frame(
+        attack_x[frame],
+        23,
+        230,
+        180
+    )
+
+
 while True:
     clear_canvas()
 
     # 걷기
     if animation_type == 0:
-        draw_frame(
-            frame * 210,
-            595,
-            210,
-            198
-        )
+        draw_walk(frame)
 
         frame = (frame + 1) % 7
 
@@ -70,12 +105,7 @@ while True:
 
     # 뛰기
     elif animation_type == 1:
-        draw_frame(
-            run_x[frame],
-            400,
-            240,
-            160
-        )
+        draw_run(frame)
 
         frame = (frame + 1) % 5
 
@@ -85,12 +115,7 @@ while True:
 
     # 점프
     elif animation_type == 2:
-        draw_frame(
-            jump_x[frame],
-            203,
-            190,
-            190
-        )
+        draw_jump(frame)
 
         frame = (frame + 1) % 10
 
@@ -100,12 +125,7 @@ while True:
 
     # 공격
     elif animation_type == 3:
-        draw_frame(
-            attack_x[frame],
-            23,
-            230,
-            180
-        )
+        draw_attack(frame)
 
         frame = (frame + 1) % 7
 
