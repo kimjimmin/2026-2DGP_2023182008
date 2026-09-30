@@ -7,25 +7,11 @@ character = load_image('fox_animation.png')
 frame = 0
 animation_type = 0
 
-run_x = [
-    20,
-    275,
-    528,
-    781,
-    1039
-]
+run_x = [20, 275, 528, 781, 1039]
 
 jump_x = [
-    15,
-    206,
-    395,
-    590,
-    788,
-    982,
-    1165,
-    1364,
-    1575,
-    1776
+    15, 206, 395, 590, 788,
+    982, 1165, 1364, 1575, 1776
 ]
 
 while True:
@@ -59,7 +45,7 @@ while True:
 
     elif animation_type == 2:
         character.clip_draw(
-            frame * 198, 198,
+            jump_x[frame], 198,
             198, 198,
             400, 300,
             198, 198
