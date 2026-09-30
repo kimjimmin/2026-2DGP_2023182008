@@ -5,8 +5,26 @@ open_canvas(800, 600)
 character = load_image('fox_animation.png')
 
 frame = 0
-animation_type = 0     # 0 = 걷기, 1 = 뛰기, 2 = 점프, 3 = 공격
+animation_type = 0
 
+
+# 애니메이션 번호
+WALK = 0
+RUN = 1
+JUMP = 2
+ATTACK = 3
+
+
+# 각 애니메이션 프레임의 X 위치
+walk_x = [
+    0,
+    210,
+    420,
+    630,
+    840,
+    1050,
+    1260
+]
 
 run_x = [
     20,
@@ -40,111 +58,86 @@ attack_x = [
 ]
 
 
-def draw_frame(x, y, width, height):
+# 애니메이션 정보
+animations = {
+    WALK: {
+        'x': walk_x,
+        'y': 595,
+        'width': 210,
+        'height': 198,
+        'next': RUN
+    },
+
+    RUN: {
+        'x': run_x,
+        'y': 400,
+        'width': 240,
+        'height': 160,
+        'next': JUMP
+    },
+
+    JUMP: {
+        'x': jump_x,
+        'y': 203,
+        'width': 190,
+        'height': 190,
+        'next': ATTACK
+    },
+
+    ATTACK: {
+        'x': attack_x,
+        'y': 23,
+        'width': 230,
+        'height': 180,
+        'next': WALK
+    }
+}
+
+
+# 현재 애니메이션의 프레임 출력
+def draw_animation(animation_type, frame):
+    animation = animations[animation_type]
+
     character.clip_draw(
-        x, y,
-        width, height,
-        400, 300,
-        width, height
-    )
+        animation['x'][frame],
+        animation['y'],
+        animation['width'],
+        animation['height'],
 
-
-def draw_walk(frame):
-    draw_frame(
-        frame * 210,
-        595,
-        210,
-        198
-    )
-
-
-def draw_run(frame):
-    draw_frame(
-        run_x[frame],
         400,
-        240,
-        160
+        300,
+
+        animation['width'],
+        animation['height']
     )
 
 
-def draw_jump(frame):
-    draw_frame(
-        jump_x[frame],
-        203,
-        190,
-        190
-    )
+# 다음 프레임 계산
+def update_animation(animation_type, frame):
+    animation = animations[animation_type]
 
+    frame += 1
 
-def draw_attack(frame):
-    draw_frame(
-        attack_x[frame],
-        23,
-        230,
-        180
-    )
+    # 현재 애니메이션이 끝났다면
+    if frame >= len(animation['x']):
+        frame = 0
+        animation_type = animation['next']
 
-
-# 다음 프레임으로 이동
-def next_frame(frame, frame_count, animation_type, next_animation):
-    frame = (frame + 1) % frame_count
-
-    if frame == 0:
-        animation_type = next_animation
-
-    return frame, animation_type
+    return animation_type, frame
 
 
 while True:
     clear_canvas()
 
-    # 걷기
-    if animation_type == 0:
-        draw_walk(frame)
+    draw_animation(
+        animation_type,
+        frame
+    )
 
-        frame, animation_type = next_frame(
-            frame,
-            7,
-            animation_type,
-            1
-        )
-
-
-    # 뛰기
-    elif animation_type == 1:
-        draw_run(frame)
-
-        frame, animation_type = next_frame(
-            frame,
-            5,
-            animation_type,
-            2
-        )
-
-
-    # 점프
-    elif animation_type == 2:
-        draw_jump(frame)
-
-        frame, animation_type = next_frame(
-            frame,
-            10,
-            animation_type,
-            3
-        )
-
-
-    # 공격
-    elif animation_type == 3:
-        draw_attack(frame)
-
-        frame, animation_type = next_frame(
-            frame,
-            7,
-            animation_type,
-            0
-        )
-
+    animation_type, frame = update_animation(
+        animation_type,
+        frame
+    )
 
     update_canvas()
     delay(0.1)
