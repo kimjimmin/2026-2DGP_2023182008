@@ -34,9 +34,9 @@ while True:
     elif animation_type == 1:
         character.clip_draw(
             run_x[frame], 400,
-            240, 198,
+            240, 160,
             400, 300,
-            240, 198
+            240, 160
         )
 
         frame = (frame + 1) % 5
