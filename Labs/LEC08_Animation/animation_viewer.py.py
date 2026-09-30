@@ -45,7 +45,7 @@ while True:
 
     elif animation_type == 2:
         character.clip_draw(
-            jump_x[frame], 198,
+            jump_x[frame], 203,
             198, 198,
             400, 300,
             198, 198
