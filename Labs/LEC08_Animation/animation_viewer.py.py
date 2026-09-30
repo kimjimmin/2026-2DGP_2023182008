@@ -5,7 +5,7 @@ open_canvas(800, 600)
 character = load_image('fox_animation.png')
 
 frame = 0
-animation_type = 0     # 0 = 걷기, 1 = 뛰기, 2 = 점프
+animation_type = 0     # 0 = 걷기, 1 = 뛰기, 2 = 점프, 3 = 공격
 
 while True:
     clear_canvas()
@@ -53,7 +53,23 @@ while True:
 
         frame = (frame + 1) % 10
 
-        # 점프 한 사이클이 끝나면 다시 걷기로
+        # 점프 한 사이클이 끝나면 공격으로
+        if frame == 0:
+            animation_type = 3
+
+
+    # 공격
+    elif animation_type == 3:
+        character.clip_draw(
+            frame * 283, 0,
+            283, 198,
+            400, 300,
+            283, 198
+        )
+
+        frame = (frame + 1) % 7
+
+        # 공격 한 사이클이 끝나면 다시 걷기로
         if frame == 0:
             animation_type = 0
 
