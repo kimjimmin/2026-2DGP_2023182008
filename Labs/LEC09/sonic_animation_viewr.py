@@ -91,6 +91,20 @@ ANIMATIONS = (
 )
 
 
+# (이동 유형, 5회 재생 전체의 수평 이동 거리, 1회 도약 높이)
+MOTIONS = {
+    'idle': ('still', 0, 0), 'look_up': ('still', 0, 0),
+    'crouch': ('still', 0, 0), 'curl': ('still', 0, 0),
+    'walk': ('linear', 120, 0), 'jog': ('linear', 140, 0),
+    'dash': ('linear', 180, 0), 'spin': ('hop', 0, 90),
+    'jump_ball': ('hop', 0, 110), 'rolling_ball': ('linear', 160, 0),
+    'run': ('linear', 180, 0), 'fast_run': ('linear', 220, 0),
+    'turn': ('still', 0, 0), 'hurt': ('hop', -90, 60),
+    'brake': ('brake', 140, 0), 'fall': ('hop', 0, 80),
+    'stand': ('still', 0, 0),
+}
+
+
 @dataclass
 class Player:
     animations: tuple = ANIMATIONS
