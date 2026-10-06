@@ -6,9 +6,15 @@ CANVAS_WIDTH = 800
 CANVAS_HEIGHT = 600
 
 
-def main():
+def main(frame_limit=None):
     """뷰어를 실행한다."""
     pico2d.open_canvas(CANVAS_WIDTH, CANVAS_HEIGHT)
+    drawn = 0
+    while frame_limit is None or drawn < frame_limit:
+        pico2d.clear_canvas()
+        pico2d.update_canvas()
+        pico2d.delay(0.01)
+        drawn += 1
     pico2d.close_canvas()
     return 0
 
