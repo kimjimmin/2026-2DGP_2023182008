@@ -8,6 +8,15 @@ CANVAS_HEIGHT = 600
 SPRITE_PATH = Path(__file__).resolve().with_name('sonic-sprite.png')
 
 
+def load_sprite(path=SPRITE_PATH):
+    if not path.is_file():
+        raise FileNotFoundError(f'스프라이트 이미지를 찾을 수 없습니다: {path}')
+    try:
+        return pico2d.load_image(str(path))
+    except Exception as error:
+        raise RuntimeError(f'스프라이트 로딩 실패: {path}: {error}') from error
+
+
 def handle_events():
     for event in pico2d.get_events():
         if event.type == pico2d.SDL_QUIT:
@@ -21,6 +30,7 @@ def main(frame_limit=None):
     """뷰어를 실행한다."""
     pico2d.open_canvas(CANVAS_WIDTH, CANVAS_HEIGHT)
     try:
+        sprite = load_sprite()
         drawn = 0
         while frame_limit is None or drawn < frame_limit:
             if not handle_events():
