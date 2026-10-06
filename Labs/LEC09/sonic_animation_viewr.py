@@ -4,7 +4,8 @@ import pico2d
 from pathlib import Path
 from dataclasses import dataclass
 from time import monotonic
-from math import sin, pi
+from math import sin, pi, isfinite
+import sys
 
 CANVAS_WIDTH = 800
 CANVAS_HEIGHT = 600
@@ -190,6 +191,39 @@ def draw_frame(sprite, animation, frame_index, position=CENTER):
                      *position, DISPLAY_WIDTH, DISPLAY_HEIGHT)
 
 
+def validate_animations(animations, image_width, image_height):
+    if not animations:
+        raise ValueError('재생할 동작 목록이 비어 있습니다.')
+    seen = set()
+    for animation in animations:
+        label = animation.id
+        if not label or label in seen:
+            raise ValueError(f'{label}: 동작 ID가 비어 있거나 중복됩니다.')
+        seen.add(label)
+        if not animation.frames:
+            raise ValueError(f'{label}: 프레임 목록이 비어 있습니다.')
+        seconds = animation.frame_seconds
+        if not isinstance(seconds, (int, float)) or not isfinite(seconds) or seconds <= 0:
+            raise ValueError(f'{label}: 프레임 시간은 유한한 양수여야 합니다.')
+        for index, frame in enumerate(animation.frames):
+            if len(frame) != 4 or any(type(value) is not int for value in frame):
+                raise ValueError(f'{label} 프레임 {index}: 정수 좌표 4개가 필요합니다.')
+            left, top, width, height = frame
+            if (min(left, top) < 0 or min(width, height) <= 0
+                    or left + width > image_width or top + height > image_height):
+                raise ValueError(f'{label} 프레임 {index}: 이미지 영역을 벗어난 좌표 {frame}')
+        if label not in MOTIONS:
+            raise ValueError(f'{label}: 이동 정보가 없습니다.')
+        kind, distance, height = MOTIONS[label]
+        if kind not in ('still', 'linear', 'hop', 'brake'):
+            raise ValueError(f'{label}: 알 수 없는 이동 유형 {kind}')
+        if any(not isinstance(v, (int, float)) or not isfinite(v) for v in (distance, height)):
+            raise ValueError(f'{label}: 이동 값은 유한한 수여야 합니다.')
+        if height < 0 or (kind != 'hop' and height != 0) or (kind == 'still' and distance != 0):
+            raise ValueError(f'{label}: 이동 유형과 거리·높이가 일치하지 않습니다.')
+        check_motion_bounds(animation)
+
+
 def load_sprite(path=SPRITE_PATH):
     if not path.is_file():
         raise FileNotFoundError(f'스프라이트 이미지를 찾을 수 없습니다: {path}')
@@ -219,8 +253,7 @@ def main(frame_limit=None):
         # 기본 회색 배경에서 파란 몸체·흰 장갑을 구분한다.
         pico2d.hide_lattice()
         sprite = load_sprite()
-        for animation in ANIMATIONS:
-            check_motion_bounds(animation)
+        validate_animations(ANIMATIONS, sprite.w, sprite.h)
         player = Player(started=monotonic())
         drawn = 0
         while frame_limit is None or drawn < frame_limit:
@@ -233,6 +266,9 @@ def main(frame_limit=None):
             pico2d.update_canvas()
             pico2d.delay(0.01)
             drawn += 1
+    except (OSError, RuntimeError, ValueError) as error:
+        print(f'소닉 뷰어 오류: {error}', file=sys.stderr)
+        return 1
     finally:
         pico2d.close_canvas()
     return 0
