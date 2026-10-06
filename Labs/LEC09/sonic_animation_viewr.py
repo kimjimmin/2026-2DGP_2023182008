@@ -142,15 +142,20 @@ class Player:
     def position(self):
         return position_at(self.animation, self.elapsed)
 
+    def begin_next(self, now):
+        """다음 동작은 공통 시작 위치에서 첫 프레임부터 재생한다."""
+        self.animation_index = (self.animation_index + 1) % len(self.animations)
+        self.started = now
+        self.elapsed = 0.0
+        self.completed = 0
+        self.frame_index = 0
+        self.wait_started = 0.0
+        self.state = 'playing'
+
     def update(self, now):
         if self.state == 'waiting':
             if now - self.wait_started >= WAIT_SECONDS:
-                self.animation_index = (self.animation_index + 1) % len(self.animations)
-                self.started = now
-                self.elapsed = 0.0
-                self.completed = 0
-                self.frame_index = 0
-                self.state = 'playing'
+                self.begin_next(now)
             return
         self.elapsed = max(0.0, now - self.started)
         duration = len(self.animation.frames) * self.animation.frame_seconds
