@@ -36,6 +36,7 @@ def main(frame_limit=None):
             if not handle_events():
                 break
             pico2d.clear_canvas()
+            sprite.draw(CANVAS_WIDTH // 2, CANVAS_HEIGHT // 2)
             pico2d.update_canvas()
             pico2d.delay(0.01)
             drawn += 1
