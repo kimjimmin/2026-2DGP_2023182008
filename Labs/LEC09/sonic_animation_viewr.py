@@ -55,6 +55,8 @@ def main(frame_limit=None):
     """뷰어를 실행한다."""
     pico2d.open_canvas(CANVAS_WIDTH, CANVAS_HEIGHT)
     try:
+        # 기본 회색 배경에서 파란 몸체·흰 장갑을 구분한다.
+        pico2d.hide_lattice()
         sprite = load_sprite()
         drawn = 0
         while frame_limit is None or drawn < frame_limit:
