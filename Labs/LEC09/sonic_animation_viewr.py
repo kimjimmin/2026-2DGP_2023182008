@@ -54,8 +54,7 @@ class Player:
     def update(self, now):
         if self.state == 'waiting':
             if now - self.wait_started >= WAIT_SECONDS:
-                self.animation_index = min(self.animation_index + 1,
-                                           len(self.animations) - 1)
+                self.animation_index = (self.animation_index + 1) % len(self.animations)
                 self.started = now
                 self.elapsed = 0.0
                 self.completed = 0
