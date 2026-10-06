@@ -2,10 +2,29 @@
 
 import pico2d
 from pathlib import Path
+from dataclasses import dataclass
 
 CANVAS_WIDTH = 800
 CANVAS_HEIGHT = 600
 SPRITE_PATH = Path(__file__).resolve().with_name('sonic-sprite.png')
+
+
+@dataclass(frozen=True)
+class Animation:
+    id: str
+    name: str
+    frames: tuple
+    frame_seconds: float = 0.1
+
+
+# 프레임은 원본 왼쪽 위 기준 (left, top, width, height).
+ANIMATIONS = (
+    Animation('idle', '대기', ((1, 39, 29, 39),)),
+)
+
+
+def draw_frame(sprite, animation, frame_index):
+    pass
 
 
 def load_sprite(path=SPRITE_PATH):
