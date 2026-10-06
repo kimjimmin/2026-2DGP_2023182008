@@ -39,6 +39,7 @@ class Player:
     animation_index: int = 0
     frame_index: int = 0
     elapsed: float = 0.0
+    completed: int = 0
     started: float = 0.0
 
     @property
@@ -47,6 +48,8 @@ class Player:
 
     def update(self, now):
         self.elapsed = max(0.0, now - self.started)
+        duration = len(self.animation.frames) * self.animation.frame_seconds
+        self.completed = int(self.elapsed / duration)
         self.frame_index = (int(self.elapsed / self.animation.frame_seconds)
                             % len(self.animation.frames))
 
