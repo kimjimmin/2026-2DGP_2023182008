@@ -10,21 +10,25 @@ def handle_events():
     for event in pico2d.get_events():
         if event.type == pico2d.SDL_QUIT:
             return False
+        if event.type == pico2d.SDL_KEYDOWN and event.key == pico2d.SDLK_ESCAPE:
+            return False
     return True
 
 
 def main(frame_limit=None):
     """뷰어를 실행한다."""
     pico2d.open_canvas(CANVAS_WIDTH, CANVAS_HEIGHT)
-    drawn = 0
-    while frame_limit is None or drawn < frame_limit:
-        if not handle_events():
-            break
-        pico2d.clear_canvas()
-        pico2d.update_canvas()
-        pico2d.delay(0.01)
-        drawn += 1
-    pico2d.close_canvas()
+    try:
+        drawn = 0
+        while frame_limit is None or drawn < frame_limit:
+            if not handle_events():
+                break
+            pico2d.clear_canvas()
+            pico2d.update_canvas()
+            pico2d.delay(0.01)
+            drawn += 1
+    finally:
+        pico2d.close_canvas()
     return 0
 
 
