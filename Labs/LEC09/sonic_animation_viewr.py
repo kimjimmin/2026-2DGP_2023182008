@@ -9,6 +9,8 @@ CANVAS_HEIGHT = 600
 CENTER = (CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2)
 DISPLAY_WIDTH = 300
 DISPLAY_HEIGHT = 300
+DEV_INSPECT = True
+dev_frame = 0
 SPRITE_PATH = Path(__file__).resolve().with_name('sonic-sprite.png')
 
 
@@ -47,11 +49,15 @@ def load_sprite(path=SPRITE_PATH):
 
 
 def handle_events():
+    global dev_frame
     for event in pico2d.get_events():
         if event.type == pico2d.SDL_QUIT:
             return False
         if event.type == pico2d.SDL_KEYDOWN and event.key == pico2d.SDLK_ESCAPE:
             return False
+        if DEV_INSPECT and event.type == pico2d.SDL_KEYDOWN:
+            if event.key == pico2d.SDLK_RIGHT:
+                dev_frame = (dev_frame + 1) % len(ANIMATIONS[0].frames)
     return True
 
 
@@ -67,7 +73,7 @@ def main(frame_limit=None):
             if not handle_events():
                 break
             pico2d.clear_canvas()
-            draw_frame(sprite, ANIMATIONS[0], 0)
+            draw_frame(sprite, ANIMATIONS[0], dev_frame)
             pico2d.update_canvas()
             pico2d.delay(0.01)
             drawn += 1
