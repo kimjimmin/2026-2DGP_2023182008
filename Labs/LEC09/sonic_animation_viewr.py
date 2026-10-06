@@ -28,11 +28,11 @@ class Animation:
 # 프레임은 원본 왼쪽 위 기준 (left, top, width, height).
 ANIMATIONS = (
     Animation('idle', '대기', (
-        (1, 39, 29, 39), (31, 40, 26, 38), (58, 39, 29, 39),
-        (87, 40, 29, 38), (118, 40, 30, 38), (150, 40, 30, 38),
-        (182, 40, 30, 38),
+        (1, 39, 29, 39), (31, 40, 26, 38), (58, 39, 28, 39),
+        (86, 40, 30, 38), (118, 40, 30, 38), (150, 40, 30, 38),
+        (182, 40, 29, 38),
     )),
-    Animation('look_up', '위 보기', ((212, 39, 29, 38), (241, 39, 28, 38))),
+    Animation('look_up', '위 보기', ((211, 39, 29, 38), (240, 39, 29, 38))),
     # 단독 포즈는 관찰 시간을 확보하고, 공 형태는 한 프레임으로 도약한다.
     Animation('crouch', '웅크리기', ((270, 45, 24, 32),), 0.25),
     Animation('curl', '몸 말기', ((302, 51, 29, 26),), 0.25),
@@ -120,11 +120,11 @@ class Player:
                             % len(self.animation.frames))
 
 
-def draw_frame(sprite, animation, frame_index):
+def draw_frame(sprite, animation, frame_index, position=CENTER):
     left, top, width, height = animation.frames[frame_index]
     bottom = sprite.h - top - height
     sprite.clip_draw(left, bottom, width, height,
-                     *CENTER, DISPLAY_WIDTH, DISPLAY_HEIGHT)
+                     *position, DISPLAY_WIDTH, DISPLAY_HEIGHT)
 
 
 def load_sprite(path=SPRITE_PATH):
