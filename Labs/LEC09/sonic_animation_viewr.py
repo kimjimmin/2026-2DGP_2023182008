@@ -7,6 +7,8 @@ from dataclasses import dataclass
 CANVAS_WIDTH = 800
 CANVAS_HEIGHT = 600
 CENTER = (CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2)
+DISPLAY_WIDTH = 300
+DISPLAY_HEIGHT = 300
 SPRITE_PATH = Path(__file__).resolve().with_name('sonic-sprite.png')
 
 
@@ -27,7 +29,8 @@ ANIMATIONS = (
 def draw_frame(sprite, animation, frame_index):
     left, top, width, height = animation.frames[frame_index]
     bottom = sprite.h - top - height
-    sprite.clip_draw(left, bottom, width, height, *CENTER)
+    sprite.clip_draw(left, bottom, width, height,
+                     *CENTER, DISPLAY_WIDTH, DISPLAY_HEIGHT)
 
 
 def load_sprite(path=SPRITE_PATH):
