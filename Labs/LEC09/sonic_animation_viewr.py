@@ -24,7 +24,9 @@ ANIMATIONS = (
 
 
 def draw_frame(sprite, animation, frame_index):
-    pass
+    left, top, width, height = animation.frames[frame_index]
+    bottom = sprite.h - top - height
+    sprite.clip_draw(left, bottom, width, height, 100, 100)
 
 
 def load_sprite(path=SPRITE_PATH):
@@ -55,7 +57,7 @@ def main(frame_limit=None):
             if not handle_events():
                 break
             pico2d.clear_canvas()
-            sprite.draw(CANVAS_WIDTH // 2, CANVAS_HEIGHT // 2)
+            draw_frame(sprite, ANIMATIONS[0], 0)
             pico2d.update_canvas()
             pico2d.delay(0.01)
             drawn += 1
