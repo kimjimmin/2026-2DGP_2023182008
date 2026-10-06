@@ -10,6 +10,16 @@ CANVAS_HEIGHT = 600
 CENTER = (CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2)
 DISPLAY_WIDTH = 300
 DISPLAY_HEIGHT = 300
+SCREEN_MARGIN = 24
+
+
+def display_bounds(position):
+    """그리기 크기와 동일한 사각형으로 이동 경계도 검사한다."""
+    x, y = position
+    return (x - DISPLAY_WIDTH / 2, y - DISPLAY_HEIGHT / 2,
+            x + DISPLAY_WIDTH / 2, y + DISPLAY_HEIGHT / 2)
+
+
 REPEAT_COUNT = 5
 WAIT_SECONDS = 1.0
 DEV_INSPECT = False
