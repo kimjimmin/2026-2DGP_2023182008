@@ -11,6 +11,7 @@ CENTER = (CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2)
 DISPLAY_WIDTH = 300
 DISPLAY_HEIGHT = 300
 REPEAT_COUNT = 5
+WAIT_SECONDS = 1.0
 DEV_INSPECT = False
 dev_frame = 0
 SPRITE_PATH = Path(__file__).resolve().with_name('sonic-sprite.png')
@@ -51,6 +52,12 @@ class Player:
 
     def update(self, now):
         if self.state == 'waiting':
+            if now - self.wait_started >= WAIT_SECONDS:
+                self.started = now
+                self.elapsed = 0.0
+                self.completed = 0
+                self.frame_index = 0
+                self.state = 'playing'
             return
         self.elapsed = max(0.0, now - self.started)
         duration = len(self.animation.frames) * self.animation.frame_seconds
