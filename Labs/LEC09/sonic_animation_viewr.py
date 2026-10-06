@@ -42,12 +42,16 @@ class Player:
     elapsed: float = 0.0
     completed: int = 0
     started: float = 0.0
+    state: str = 'playing'
+    wait_started: float = 0.0
 
     @property
     def animation(self):
         return self.animations[self.animation_index]
 
     def update(self, now):
+        if self.state == 'waiting':
+            return
         self.elapsed = max(0.0, now - self.started)
         duration = len(self.animation.frames) * self.animation.frame_seconds
         self.completed = int(self.elapsed / duration)
@@ -55,6 +59,8 @@ class Player:
             self.completed = REPEAT_COUNT
             self.elapsed = duration * REPEAT_COUNT
             self.frame_index = len(self.animation.frames) - 1
+            self.state = 'waiting'
+            self.wait_started = now
             return
         self.frame_index = (int(self.elapsed / self.animation.frame_seconds)
                             % len(self.animation.frames))
