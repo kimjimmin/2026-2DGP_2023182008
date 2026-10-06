@@ -1,11 +1,12 @@
 """소닉 스프라이트 애니메이션 뷰어."""
 
-import pico2d
-from pathlib import Path
 from dataclasses import dataclass
-from time import monotonic
 from math import sin, pi, isfinite
+from pathlib import Path
 import sys
+from time import monotonic
+
+import pico2d
 
 CANVAS_WIDTH = 800
 CANVAS_HEIGHT = 600
@@ -13,6 +14,9 @@ CENTER = (CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2)
 DISPLAY_WIDTH = 300
 DISPLAY_HEIGHT = 300
 SCREEN_MARGIN = 24
+REPEAT_COUNT = 5
+WAIT_SECONDS = 1.0
+SPRITE_PATH = Path(__file__).resolve().with_name('sonic-sprite.png')
 
 
 def display_bounds(position):
@@ -20,13 +24,6 @@ def display_bounds(position):
     x, y = position
     return (x - DISPLAY_WIDTH / 2, y - DISPLAY_HEIGHT / 2,
             x + DISPLAY_WIDTH / 2, y + DISPLAY_HEIGHT / 2)
-
-
-REPEAT_COUNT = 5
-WAIT_SECONDS = 1.0
-DEV_INSPECT = False
-dev_frame = 0
-SPRITE_PATH = Path(__file__).resolve().with_name('sonic-sprite.png')
 
 
 @dataclass(frozen=True)
@@ -235,15 +232,11 @@ def load_sprite(path=SPRITE_PATH):
 
 
 def handle_events():
-    global dev_frame
     for event in pico2d.get_events():
         if event.type == pico2d.SDL_QUIT:
             return False
         if event.type == pico2d.SDL_KEYDOWN and event.key == pico2d.SDLK_ESCAPE:
             return False
-        if DEV_INSPECT and event.type == pico2d.SDL_KEYDOWN:
-            if event.key == pico2d.SDLK_RIGHT:
-                dev_frame = (dev_frame + 1) % len(ANIMATIONS[0].frames)
     return True
 
 
@@ -262,8 +255,7 @@ def main(frame_limit=None):
                 break
             player.update(monotonic())
             pico2d.clear_canvas()
-            index = dev_frame if DEV_INSPECT else player.frame_index
-            draw_frame(sprite, player.animation, index, player.position)
+            draw_frame(sprite, player.animation, player.frame_index, player.position)
             pico2d.update_canvas()
             pico2d.delay(0.01)
             drawn += 1
