@@ -47,8 +47,8 @@ class Player:
 
     def update(self, now):
         self.elapsed = max(0.0, now - self.started)
-        self.frame_index = min(int(self.elapsed / self.animation.frame_seconds),
-                               len(self.animation.frames) - 1)
+        self.frame_index = (int(self.elapsed / self.animation.frame_seconds)
+                            % len(self.animation.frames))
 
 
 def draw_frame(sprite, animation, frame_index):
