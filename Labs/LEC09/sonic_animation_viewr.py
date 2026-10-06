@@ -4,6 +4,7 @@ import pico2d
 from pathlib import Path
 from dataclasses import dataclass
 from time import monotonic
+from math import sin, pi
 
 CANVAS_WIDTH = 800
 CANVAS_HEIGHT = 600
@@ -105,6 +106,23 @@ MOTIONS = {
 }
 
 
+def position_at(animation, elapsed):
+    """프레임 재생과 같은 경과 시간으로 연속적인 화면 좌표를 구한다."""
+    kind, distance, height = MOTIONS[animation.id]
+    cycle = len(animation.frames) * animation.frame_seconds
+    total = cycle * REPEAT_COUNT
+    elapsed = max(0.0, min(elapsed, total))
+    progress = elapsed / total
+    if kind == 'brake':
+        progress = 1 - (1 - progress) ** 2
+    x = CENTER[0] + distance * progress
+    y = CENTER[1]
+    if kind == 'hop' and elapsed < total:
+        phase = (elapsed % cycle) / cycle
+        y += height * sin(pi * phase)
+    return x, y
+
+
 @dataclass
 class Player:
     animations: tuple = ANIMATIONS
@@ -119,6 +137,10 @@ class Player:
     @property
     def animation(self):
         return self.animations[self.animation_index]
+
+    @property
+    def position(self):
+        return position_at(self.animation, self.elapsed)
 
     def update(self, now):
         if self.state == 'waiting':
@@ -188,7 +210,7 @@ def main(frame_limit=None):
             player.update(monotonic())
             pico2d.clear_canvas()
             index = dev_frame if DEV_INSPECT else player.frame_index
-            draw_frame(sprite, player.animation, index)
+            draw_frame(sprite, player.animation, index, player.position)
             pico2d.update_canvas()
             pico2d.delay(0.01)
             drawn += 1
