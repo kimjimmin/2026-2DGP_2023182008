@@ -10,7 +10,7 @@ CANVAS_HEIGHT = 600
 CENTER = (CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2)
 DISPLAY_WIDTH = 300
 DISPLAY_HEIGHT = 300
-DEV_INSPECT = True
+DEV_INSPECT = False
 dev_frame = 0
 SPRITE_PATH = Path(__file__).resolve().with_name('sonic-sprite.png')
 
@@ -47,6 +47,8 @@ class Player:
 
     def update(self, now):
         self.elapsed = max(0.0, now - self.started)
+        self.frame_index = min(int(self.elapsed / self.animation.frame_seconds),
+                               len(self.animation.frames) - 1)
 
 
 def draw_frame(sprite, animation, frame_index):
@@ -92,7 +94,8 @@ def main(frame_limit=None):
                 break
             player.update(monotonic())
             pico2d.clear_canvas()
-            draw_frame(sprite, ANIMATIONS[0], dev_frame)
+            index = dev_frame if DEV_INSPECT else player.frame_index
+            draw_frame(sprite, player.animation, index)
             pico2d.update_canvas()
             pico2d.delay(0.01)
             drawn += 1
