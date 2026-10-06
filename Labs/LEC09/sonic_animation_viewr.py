@@ -3,6 +3,7 @@
 import pico2d
 from pathlib import Path
 from dataclasses import dataclass
+from time import monotonic
 
 CANVAS_WIDTH = 800
 CANVAS_HEIGHT = 600
@@ -30,6 +31,22 @@ ANIMATIONS = (
         (182, 40, 30, 38),
     )),
 )
+
+
+@dataclass
+class Player:
+    animations: tuple = ANIMATIONS
+    animation_index: int = 0
+    frame_index: int = 0
+    elapsed: float = 0.0
+    started: float = 0.0
+
+    @property
+    def animation(self):
+        return self.animations[self.animation_index]
+
+    def update(self, now):
+        self.elapsed = max(0.0, now - self.started)
 
 
 def draw_frame(sprite, animation, frame_index):
@@ -68,10 +85,12 @@ def main(frame_limit=None):
         # 기본 회색 배경에서 파란 몸체·흰 장갑을 구분한다.
         pico2d.hide_lattice()
         sprite = load_sprite()
+        player = Player(started=monotonic())
         drawn = 0
         while frame_limit is None or drawn < frame_limit:
             if not handle_events():
                 break
+            player.update(monotonic())
             pico2d.clear_canvas()
             draw_frame(sprite, ANIMATIONS[0], dev_frame)
             pico2d.update_canvas()
