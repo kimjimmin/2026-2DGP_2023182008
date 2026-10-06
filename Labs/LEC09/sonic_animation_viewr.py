@@ -167,12 +167,14 @@ class Player:
 
     def update(self, now):
         if self.state == 'waiting':
-            if now - self.wait_started >= WAIT_SECONDS:
+            if now >= self.wait_started + WAIT_SECONDS:
                 self.begin_next(now)
             return
         self.elapsed = max(0.0, now - self.started)
         duration = len(self.animation.frames) * self.animation.frame_seconds
-        self.completed = int(self.elapsed / duration)
+        # 0.7 / 0.1 등이 정수 경계 직전으로 계산되는 부동소수점 오차 보정.
+        frame_number = int((self.elapsed + 1e-9) / self.animation.frame_seconds)
+        self.completed = frame_number // len(self.animation.frames)
         if self.completed >= REPEAT_COUNT:
             self.completed = REPEAT_COUNT
             self.elapsed = duration * REPEAT_COUNT
@@ -180,8 +182,7 @@ class Player:
             self.state = 'waiting'
             self.wait_started = now
             return
-        self.frame_index = (int(self.elapsed / self.animation.frame_seconds)
-                            % len(self.animation.frames))
+        self.frame_index = frame_number % len(self.animation.frames)
 
 
 def draw_frame(sprite, animation, frame_index, position=CENTER):
