@@ -123,6 +123,18 @@ def position_at(animation, elapsed):
     return x, y
 
 
+def check_motion_bounds(animation):
+    """지원하는 경로의 극값을 검사한다. 경계에서 위치를 강제로 멈추지 않는다."""
+    kind, distance, height = MOTIONS[animation.id]
+    for x in (CENTER[0], CENTER[0] + distance):
+        for y in (CENTER[1], CENTER[1] + height):
+            left, bottom, right, top = display_bounds((x, y))
+            if (left < SCREEN_MARGIN or bottom < SCREEN_MARGIN
+                    or right > CANVAS_WIDTH - SCREEN_MARGIN
+                    or top > CANVAS_HEIGHT - SCREEN_MARGIN):
+                raise ValueError(f'{animation.id}: 이동 경로가 화면 여백을 벗어납니다.')
+
+
 @dataclass
 class Player:
     animations: tuple = ANIMATIONS
@@ -207,6 +219,8 @@ def main(frame_limit=None):
         # 기본 회색 배경에서 파란 몸체·흰 장갑을 구분한다.
         pico2d.hide_lattice()
         sprite = load_sprite()
+        for animation in ANIMATIONS:
+            check_motion_bounds(animation)
         player = Player(started=monotonic())
         drawn = 0
         while frame_limit is None or drawn < frame_limit:
