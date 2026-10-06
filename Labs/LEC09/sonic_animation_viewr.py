@@ -10,6 +10,7 @@ CANVAS_HEIGHT = 600
 CENTER = (CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2)
 DISPLAY_WIDTH = 300
 DISPLAY_HEIGHT = 300
+REPEAT_COUNT = 5
 DEV_INSPECT = False
 dev_frame = 0
 SPRITE_PATH = Path(__file__).resolve().with_name('sonic-sprite.png')
@@ -50,6 +51,11 @@ class Player:
         self.elapsed = max(0.0, now - self.started)
         duration = len(self.animation.frames) * self.animation.frame_seconds
         self.completed = int(self.elapsed / duration)
+        if self.completed >= REPEAT_COUNT:
+            self.completed = REPEAT_COUNT
+            self.elapsed = duration * REPEAT_COUNT
+            self.frame_index = len(self.animation.frames) - 1
+            return
         self.frame_index = (int(self.elapsed / self.animation.frame_seconds)
                             % len(self.animation.frames))
 
