@@ -1,6 +1,6 @@
 
 # 계층 구조를 가지는 게임 월드
-world = [[],[]] # layers for game objects
+world = [[],[],[]] # layers for game objects
 
 
 
