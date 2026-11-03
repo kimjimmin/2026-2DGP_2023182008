@@ -1,7 +1,7 @@
 from pico2d import load_image
 
 
-class Grass:
+class Grass_back:
     def __init__(self):
         self.image = load_image('grass.png')
 
@@ -10,3 +10,6 @@ class Grass:
 
     def update(self):
         pass
+
+class Grass_front:
+    pass
