@@ -6,7 +6,7 @@ class Grass_back:
         self.image = load_image('grass.png')
 
     def draw(self):
-        self.image.draw(400, 30)
+        self.image.draw(400, 55)
 
     def update(self):
         pass
@@ -16,7 +16,7 @@ class Grass_front:
         self.image = load_image('grass.png')
     
     def draw(self):
-        self.image.draw(400, 20)
+        self.image.draw(400, 43)
     
     def update(self):
         pass

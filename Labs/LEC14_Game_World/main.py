@@ -28,10 +28,10 @@ def reset_world():
     world.add_object(boy, 1)
 
     grass_f = Grass.Grass_front()
-    world.add_object(grass_f,0)
+    world.add_object(grass_f,2)
 
     grass_b = Grass.Grass_back()
-    world.add_object(grass_b,2)
+    world.add_object(grass_b,0)
 
 
 
