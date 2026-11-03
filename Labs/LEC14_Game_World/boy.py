@@ -5,6 +5,32 @@ from sdl2 import (SDL_KEYDOWN, SDL_KEYUP, SDLK_LEFT, SDLK_RIGHT,
                   SDLK_SPACE)
 from transitions import Machine
 
+import game_world
+
+
+class Ball:
+    image = None
+    speed = 10
+    radius = 21 / 2
+
+    def __init__(self, x, y, direction):
+        if Ball.image is None:
+            Ball.image = load_image('ball21x21.png')
+
+        self.direction = 1 if direction >= 0 else -1
+        self.x = x + self.direction * 50
+        self.y = y - 35
+
+    def update(self):
+        self.x += self.direction * self.speed
+
+        if (self.x < -self.radius or
+                self.x > get_canvas_width() + self.radius):
+            game_world.remove_object(self)
+
+    def draw(self):
+        self.image.draw(self.x, self.y)
+
 
 class Boy:
     def __init__(self):
@@ -45,9 +71,10 @@ class Boy:
 
     def handle_event(self, event):
         if (event.type == SDL_KEYDOWN and
-                event.key == SDLK_SPACE and
-                self.state == 'SLEEP'):
-            self.wake_up()
+                event.key == SDLK_SPACE):
+            if self.state == 'SLEEP':
+                self.wake_up()
+            self.kick_ball()
             return
 
         if (event.type not in (SDL_KEYDOWN, SDL_KEYUP) or
@@ -70,6 +97,10 @@ class Boy:
         elif self.state == 'RUN':
             self.dir = 0
             self.stop_run()
+
+    def kick_ball(self):
+        ball = Ball(self.x, self.y, self.face_dir)
+        game_world.add_object(ball, 1)
 
     def update(self):
         if self.state == 'IDLE':
