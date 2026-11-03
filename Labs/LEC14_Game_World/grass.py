@@ -12,4 +12,11 @@ class Grass_back:
         pass
 
 class Grass_front:
-    pass
+    def __init__(self):
+        self.image = load_image('grass.png')
+    
+    def draw(self):
+        self.image.draw(400, 20)
+    
+    def update(self):
+        pass
